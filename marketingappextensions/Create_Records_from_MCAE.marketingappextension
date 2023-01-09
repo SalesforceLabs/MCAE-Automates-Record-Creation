@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MarketingAppExtension xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Used to create records in Salesforce from MCAE data</description>
+    <isActive>true</isActive>
+    <marketingAppExtActions>
+        <actionName>Create Account Contact</actionName>
+        <actionParams>{
+  &quot;isStandard&quot;: false,
+  &quot;type&quot;: &quot;flow&quot;
+}</actionParams>
+        <actionSchema>{
+  &quot;properties&quot;: {
+    &quot;CompanyName&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;title&quot;: &quot;CompanyName&quot;,
+      &quot;value&quot;: &quot;&quot;
+    },
+    &quot;EmailAddress&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;title&quot;: &quot;EmailAddress&quot;,
+      &quot;value&quot;: &quot;&quot;
+    },
+    &quot;FirstName&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;title&quot;: &quot;FirstName&quot;,
+      &quot;value&quot;: &quot;&quot;
+    },
+    &quot;LastName&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;title&quot;: &quot;LastName&quot;,
+      &quot;value&quot;: &quot;&quot;
+    }
+  },
+  &quot;view&quot;: {
+    &quot;components&quot;: [
+      {
+        &quot;definition&quot;: &quot;lightning/control&quot;,
+        &quot;scope&quot;: &quot;#/properties/CompanyName&quot;
+      },
+      {
+        &quot;definition&quot;: &quot;lightning/control&quot;,
+        &quot;scope&quot;: &quot;#/properties/EmailAddress&quot;
+      },
+      {
+        &quot;definition&quot;: &quot;lightning/control&quot;,
+        &quot;scope&quot;: &quot;#/properties/FirstName&quot;
+      },
+      {
+        &quot;definition&quot;: &quot;lightning/control&quot;,
+        &quot;scope&quot;: &quot;#/properties/LastName&quot;
+      }
+    ]
+  },
+  &quot;required&quot;: []
+}</actionSchema>
+        <actionSelector>Create_Account_Contact</actionSelector>
+        <apiName>Create_Account_Contact</apiName>
+        <description>Sends data from MCAE into Salesforce to create an Account and Contact record</description>
+        <isActive>true</isActive>
+        <marketingAppExtension>Create_Records_from_MCAE</marketingAppExtension>
+    </marketingAppExtActions>
+    <marketingAppExtActions>
+        <actionName>Create Opportunity OCR</actionName>
+        <actionParams>{
+  &quot;isStandard&quot;: false,
+  &quot;type&quot;: &quot;flow&quot;
+}</actionParams>
+        <actionSchema>{
+  &quot;properties&quot;: {
+    &quot;ContactCRMId&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;title&quot;: &quot;ContactCRMId&quot;,
+      &quot;value&quot;: &quot;&quot;
+    }
+  },
+  &quot;view&quot;: {
+    &quot;components&quot;: [
+      {
+        &quot;definition&quot;: &quot;lightning/control&quot;,
+        &quot;scope&quot;: &quot;#/properties/ContactCRMId&quot;
+      }
+    ]
+  },
+  &quot;required&quot;: []
+}</actionSchema>
+        <actionSelector>Create_Opportunity_OCR</actionSelector>
+        <apiName>Create_Opportunity_OCR</apiName>
+        <description>Sends data from MCAE into Salesforce to create an Opportunity and Opportunity Contact Role on existing Contacts with Accounts.</description>
+        <isActive>true</isActive>
+        <marketingAppExtension>Create_Records_from_MCAE</marketingAppExtension>
+    </marketingAppExtActions>
+    <marketingAppExtActions>
+        <actionName>Create Case</actionName>
+        <actionParams>{
+  &quot;isStandard&quot;: false,
+  &quot;type&quot;: &quot;flow&quot;
+}</actionParams>
+        <actionSchema>{
+  &quot;properties&quot;: {
+    &quot;ContactCRMId&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;title&quot;: &quot;ContactCRMId&quot;,
+      &quot;value&quot;: &quot;&quot;
+    }
+  },
+  &quot;view&quot;: {
+    &quot;components&quot;: [
+      {
+        &quot;definition&quot;: &quot;lightning/control&quot;,
+        &quot;scope&quot;: &quot;#/properties/ContactCRMId&quot;
+      }
+    ]
+  },
+  &quot;required&quot;: []
+}</actionSchema>
+        <actionSelector>Create_Case</actionSelector>
+        <apiName>Create_Case</apiName>
+        <description>Creates a new case record for existing contacts from MCAE</description>
+        <isActive>true</isActive>
+        <marketingAppExtension>Create_Records_from_MCAE</marketingAppExtension>
+    </marketingAppExtActions>
+    <marketingAppExtActions>
+        <actionName>Create Contact Account Opp</actionName>
+        <actionParams>{
+  &quot;isStandard&quot;: false,
+  &quot;type&quot;: &quot;flow&quot;
+}</actionParams>
+        <actionSchema>{
+  &quot;properties&quot;: {
+    &quot;CompanyName&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;title&quot;: &quot;CompanyName&quot;,
+      &quot;value&quot;: &quot;&quot;
+    },
+    &quot;EmailAddress&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;title&quot;: &quot;EmailAddress&quot;,
+      &quot;value&quot;: &quot;&quot;
+    },
+    &quot;FirstName&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;title&quot;: &quot;FirstName&quot;,
+      &quot;value&quot;: &quot;&quot;
+    },
+    &quot;LastName&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;title&quot;: &quot;LastName&quot;,
+      &quot;value&quot;: &quot;&quot;
+    }
+  },
+  &quot;view&quot;: {
+    &quot;components&quot;: [
+      {
+        &quot;definition&quot;: &quot;lightning/control&quot;,
+        &quot;scope&quot;: &quot;#/properties/CompanyName&quot;
+      },
+      {
+        &quot;definition&quot;: &quot;lightning/control&quot;,
+        &quot;scope&quot;: &quot;#/properties/EmailAddress&quot;
+      },
+      {
+        &quot;definition&quot;: &quot;lightning/control&quot;,
+        &quot;scope&quot;: &quot;#/properties/FirstName&quot;
+      },
+      {
+        &quot;definition&quot;: &quot;lightning/control&quot;,
+        &quot;scope&quot;: &quot;#/properties/LastName&quot;
+      }
+    ]
+  },
+  &quot;required&quot;: []
+}</actionSchema>
+        <actionSelector>Create_Account_Contact_Opportunity_OCR</actionSelector>
+        <apiName>Create_Contact_Account_Opp</apiName>
+        <description>Sends data from MCAE into Salesforce to create an Account, Contact record from MCAE, if one does not exist, plus an Opportunity and Opportunity Contact Role.</description>
+        <isActive>true</isActive>
+        <marketingAppExtension>Create_Records_from_MCAE</marketingAppExtension>
+    </marketingAppExtActions>
+    <masterLabel>Create Records from MCAE</masterLabel>
+</MarketingAppExtension>

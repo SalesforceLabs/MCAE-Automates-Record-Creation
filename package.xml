@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MCAE Automates Record Creation</fullName>
+    <description>Customizable flows and an External Action to create contacts, accounts, opportunities, and cases in Salesforce from MCAE</description>
+    <orgFeaturePayloads>
+        <dependencyDetectionType>M</dependencyDetectionType>
+        <feature>MarketingAppExtAction</feature>
+    </orgFeaturePayloads>
+    <orgFeaturePayloads>
+        <dependencyDetectionType>A</dependencyDetectionType>
+        <feature>Flow</feature>
+        <referencedByEntity>Flow</referencedByEntity>
+        <referencedByName>Create_Account_Contact</referencedByName>
+    </orgFeaturePayloads>
+    <orgFeaturePayloads>
+        <dependencyDetectionType>A</dependencyDetectionType>
+        <feature>Flow</feature>
+        <referencedByEntity>Flow</referencedByEntity>
+        <referencedByName>Create_Opportunity_OCR</referencedByName>
+    </orgFeaturePayloads>
+    <orgFeaturePayloads>
+        <dependencyDetectionType>A</dependencyDetectionType>
+        <feature>Flow</feature>
+        <referencedByEntity>Flow</referencedByEntity>
+        <referencedByName>Create_Case</referencedByName>
+    </orgFeaturePayloads>
+    <orgFeaturePayloads>
+        <dependencyDetectionType>A</dependencyDetectionType>
+        <feature>Flow</feature>
+        <referencedByEntity>Flow</referencedByEntity>
+        <referencedByName>Create_Account_Contact_Opportunity_OCR</referencedByName>
+    </orgFeaturePayloads>
+    <types>
+        <members>Create_Account_Contact</members>
+        <members>Create_Account_Contact_Opportunity_OCR</members>
+        <members>Create_Case</members>
+        <members>Create_Opportunity_OCR</members>
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>Create_Records_from_MCAE</members>
+        <name>MarketingAppExtension</name>
+    </types>
+    <types>
+        <members>Admin</members>
+        <name>Profile</name>
+    </types>
+    <version>56.0</version>
+</Package>

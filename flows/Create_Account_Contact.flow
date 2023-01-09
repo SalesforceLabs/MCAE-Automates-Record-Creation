@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <decisions>
+        <description>Checks to see if there are existing account with the same name</description>
+        <name>Are_There_Existing_Accounts</name>
+        <label>Are There Existing Accounts?</label>
+        <locationX>605</locationX>
+        <locationY>758</locationY>
+        <defaultConnector>
+            <targetReference>Create_New_Account</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Existing Accounts</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Existing_Accounts</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Find_Existing_Accounts</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Contact_Record_on_Existing_Account</targetReference>
+            </connector>
+            <label>Yes Existing Accounts</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Are_there_existing_contacts</name>
+        <label>Are there existing contacts?</label>
+        <locationX>407</locationX>
+        <locationY>518</locationY>
+        <defaultConnector>
+            <targetReference>Find_Existing_Accounts</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Existing Contacts</defaultConnectorLabel>
+        <rules>
+            <name>Existing_Contacts</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Look_for_Duplicate_Contacts</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Existing Contacts</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>If the CompanyName or EmailAddress or LastName variable values passed from Pardot are null or empty, quit the flow to avoid errors
+Consider updating this step to customize for your organization.</description>
+        <name>Null_Prospect_Values</name>
+        <label>Null Prospect Values?</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <defaultConnector>
+            <targetReference>Find_B2BMA_Integration_User_ID</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Null Values</defaultConnectorLabel>
+        <rules>
+            <name>Null_Values</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>CompanyName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>EmailAddress</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>LastName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Null Values</label>
+        </rules>
+    </decisions>
+    <description>Creates an Account and Contact record from Pardot, if one does not exist</description>
+    <environments>Default</environments>
+    <interviewLabel>Create Account Contact {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Create Account Contact</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Creates Contact Record from Pardot values on existing Account.</description>
+        <name>Create_Contact_Record_on_Existing_Account</name>
+        <label>Create Contact Record on Existing Account</label>
+        <locationX>473</locationX>
+        <locationY>878</locationY>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>Find_Existing_Accounts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email</field>
+            <value>
+                <elementReference>EmailAddress</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>FirstName</field>
+            <value>
+                <elementReference>FirstName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LastName</field>
+            <value>
+                <elementReference>LastName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>OwnerUserId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <description>Creates Contact Record from Pardot values on newly created Account.</description>
+        <name>Create_Contact_Record_on_New_Account</name>
+        <label>Create Contact Record on New Account</label>
+        <locationX>737</locationX>
+        <locationY>998</locationY>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>GetAccountID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email</field>
+            <value>
+                <elementReference>EmailAddress</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>FirstName</field>
+            <value>
+                <elementReference>FirstName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LastName</field>
+            <value>
+                <elementReference>LastName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>OwnerUserId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <description>Create new Account from values pulled from Company Name.</description>
+        <name>Create_New_Account</name>
+        <label>Create New Account</label>
+        <locationX>737</locationX>
+        <locationY>878</locationY>
+        <assignRecordIdToReference>GetAccountID</assignRecordIdToReference>
+        <connector>
+            <targetReference>Create_Contact_Record_on_New_Account</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>CompanyName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>OwnerUserId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Account</object>
+    </recordCreates>
+    <recordLookups>
+        <description>Find the user ID of the B2BMA Integration user. Referenced in the create records nodes.
+If you would like to assign new accounts and contacts to a different user, edit the flow here to find a different user.</description>
+        <name>Find_B2BMA_Integration_User_ID</name>
+        <label>Find B2BMA Integration User ID</label>
+        <locationX>407</locationX>
+        <locationY>278</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Look_for_Duplicate_Contacts</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>B2BMA Integration</stringValue>
+            </value>
+        </filters>
+        <object>User</object>
+        <outputAssignments>
+            <assignToReference>OwnerUserId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <description>Searches for existing accounts with the same Company Name as the prospect who set off this flow</description>
+        <name>Find_Existing_Accounts</name>
+        <label>Find Existing Accounts</label>
+        <locationX>605</locationX>
+        <locationY>638</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Are_There_Existing_Accounts</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>CompanyName</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Searches for existing contacts with the same email address as the prospect that launched this flow</description>
+        <name>Look_for_Duplicate_Contacts</name>
+        <label>Look for Duplicate Contacts</label>
+        <locationX>407</locationX>
+        <locationY>398</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Are_there_existing_contacts</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Email</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>EmailAddress</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Null_Prospect_Values</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <description>Body of email if there&apos;s a fault creating a new account record</description>
+        <name>AccountCreationFaultBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;There was a problem creating an account or contact for a prospect in Account Engagement with these details:&lt;/p&gt;&lt;p&gt;First name: &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!FirstName}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Last name: {!LastName}&lt;/p&gt;&lt;p&gt;Email: {!EmailAddress}&lt;/p&gt;&lt;p&gt;Company name: {!CompanyName}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;The flow was activated via an Engagement Studio program. Pause the program and update this flow to avoid this problem in the future.&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <description>Assigning account values for record creation</description>
+        <name>AccountValues</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>CompanyName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Get Pardot Contact Values</description>
+        <name>ContactValues</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>Creates new email address for new contact record</description>
+        <name>EmailAddress</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Create a first name for a new contact</description>
+        <name>FirstName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Holds the Account ID of newly created record</description>
+        <name>GetAccountID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Last name for a new contact record</description>
+        <name>LastName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Holds B2BMA Integration user Id for record assignment (unless edited)</description>
+        <name>OwnerUserId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
